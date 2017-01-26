@@ -1,0 +1,10 @@
+C:\Users\743479\Documents\Visual Studio 2015\Projects\ASPNET\WebAPI\Pokemon go attempt\Pokemon go attempt\bin\Debug\Pokemon go attempt.exe.config
+C:\Users\743479\Documents\Visual Studio 2015\Projects\ASPNET\WebAPI\Pokemon go attempt\Pokemon go attempt\bin\Debug\Pokemon go attempt.exe
+C:\Users\743479\Documents\Visual Studio 2015\Projects\ASPNET\WebAPI\Pokemon go attempt\Pokemon go attempt\bin\Debug\Pokemon go attempt.pdb
+C:\Users\743479\Documents\Visual Studio 2015\Projects\ASPNET\WebAPI\Pokemon go attempt\Pokemon go attempt\bin\Debug\Newtonsoft.Json.dll
+C:\Users\743479\Documents\Visual Studio 2015\Projects\ASPNET\WebAPI\Pokemon go attempt\Pokemon go attempt\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\743479\Documents\Visual Studio 2015\Projects\ASPNET\WebAPI\Pokemon go attempt\Pokemon go attempt\bin\Debug\Newtonsoft.Json.xml
+C:\Users\743479\Documents\Visual Studio 2015\Projects\ASPNET\WebAPI\Pokemon go attempt\Pokemon go attempt\bin\Debug\System.Net.Http.Formatting.xml
+C:\Users\743479\Documents\Visual Studio 2015\Projects\ASPNET\WebAPI\Pokemon go attempt\Pokemon go attempt\obj\Debug\Pokemon go attempt.csprojResolveAssemblyReference.cache
+C:\Users\743479\Documents\Visual Studio 2015\Projects\ASPNET\WebAPI\Pokemon go attempt\Pokemon go attempt\obj\Debug\Pokemon go attempt.exe
+C:\Users\743479\Documents\Visual Studio 2015\Projects\ASPNET\WebAPI\Pokemon go attempt\Pokemon go attempt\obj\Debug\Pokemon go attempt.pdb
