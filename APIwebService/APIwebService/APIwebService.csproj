@@ -129,6 +129,7 @@
     <Compile Include="Message.cs" />
     <Compile Include="MessageAlert.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Team.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -12,8 +12,6 @@ namespace APIwebService
         public string resource { get; set; }
         public string filter { get; set; }
         public Data data { get; set; }
-
-
     }
 
 
