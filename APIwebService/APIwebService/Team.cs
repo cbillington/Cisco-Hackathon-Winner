@@ -19,6 +19,8 @@ namespace APIwebService
 
     public class Member
     {
+        // used for membership id, might cause bugs
+        public string id { get; set; }
         public string personId { get; set; }
         public string personEmail { get; set; }
         public string personDisplayName { get; set; }
