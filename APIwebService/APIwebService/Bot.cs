@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web;
+using System.Web.UI;
 
 namespace APIwebService
 {
@@ -30,6 +31,10 @@ namespace APIwebService
 
             switch (commandHeader)
             {
+                case "help":
+                    ListCommands();
+                    break;
+
                 case "time":
                     PostMessage(DateTime.Now.ToString("h:mm:ss tt zz"));
                     break;
@@ -45,10 +50,30 @@ namespace APIwebService
                 case "remove":
                     Remove(commandParameters);
                     break;
+
+                case "teamInvite":
+                    TeamInvite(commandParameters);
+                    break;
+
+                case "teamRemove":
+                    TeamRemove(commandParameters);
+                    break;
+
                 default:
                     PostMessage("/" + command + " is not a valid command!");
                     break;
             }
+        }
+
+        public static void ListCommands()
+        {
+            PostMessage("Commands: \n" +
+                        "time \n" +
+                        "invite \n" +
+                        "remove \n" +
+                        "teamInvite \n" +
+                        "teamRemove \n" +
+                        "emergancy");
         }
 
         private static void PostMessage(string message)
@@ -79,11 +104,11 @@ namespace APIwebService
             }
             else
             {
-                PostMessage("User added!");
+                PostMessage("User added to room!");
             }
         }
 
-        public static void Remove(string email)
+        private static void Remove(string email)
         {
             var memberData = GetMembers(_roomId);
 
@@ -104,18 +129,88 @@ namespace APIwebService
                 HttpResponseMessage response = deleteClient.DeleteAsync("").Result;
                 if (response.StatusCode == HttpStatusCode.NoContent)
                 {
-                    PostMessage("User Deleted!");
+                    PostMessage("User removed from room!");
                 }
                 else
                 {
-                    PostMessage("Cannot remove user!");
+                    PostMessage("Cannot remove user from room!");
                 }
             }
+        }
+
+        private static void TeamInvite(string email)
+        {
+            string teamId = GetTeamId();
+            string postAddress = "https://api.ciscospark.com/v1/team/memberships/";
+            HttpClient postClient = Helper.GetClient(postAddress);
+            var postContent = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string, string>("teamId", teamId),
+                new KeyValuePair<string, string>("personEmail", email)
+            });
+            HttpResponseMessage response = postClient.PostAsync("", postContent).Result;
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                PostMessage("Cannot find user with email: " + email);
+            }
+            else
+            {
+                PostMessage("User added to team!");
+            }
+        }
+
+        private static void TeamRemove(string email)
+        {
+            string teamId = GetTeamId();
+            var memberData = GetTeamMembers(teamId);
+
+            var membersFound = (from member in memberData.items
+                                where member.personEmail == email
+                                select member.id).ToList();
+
+            if (membersFound.Count == 0)
+            {
+                PostMessage("User not in team!");
+            }
+            else
+            {
+                string membershipId = membersFound[0];
+
+                string deleteAddress = "https://api.ciscospark.com/v1/team/memberships/" + membershipId;
+                HttpClient deleteClient = Helper.GetClient(deleteAddress);
+                HttpResponseMessage response = deleteClient.DeleteAsync("").Result;
+                if (response.StatusCode == HttpStatusCode.NoContent)
+                {
+                    PostMessage("User removed from team!");
+                }
+                else
+                {
+                    PostMessage("Cannot remove user from team!");
+                }
+            }
+        }
+        private static string GetTeamId()
+        {
+            // getting team id from room id
+            string getAddress = "https://api.ciscospark.com/v1/rooms/";
+            HttpClient getClient = Helper.GetClient(getAddress);
+            HttpResponseMessage response = getClient.GetAsync(_roomId).Result;
+            var room = response.Content.ReadAsAsync<Room>().Result;
+            return room.teamId;
         }
 
         private static MemberData GetMembers(string roomId)
         {
             string getAddress = "https://api.ciscospark.com/v1/memberships/?roomId=" + roomId;
+            HttpClient getClient = Helper.GetClient(getAddress);
+
+            HttpResponseMessage response = getClient.GetAsync("").Result;
+            return response.Content.ReadAsAsync<MemberData>().Result;
+        }
+
+        private static MemberData GetTeamMembers(string teamId)
+        {
+            string getAddress = "https://api.ciscospark.com/v1/team/memberships?teamId=" + teamId;
             HttpClient getClient = Helper.GetClient(getAddress);
 
             HttpResponseMessage response = getClient.GetAsync("").Result;
