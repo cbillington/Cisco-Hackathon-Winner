@@ -10,7 +10,7 @@ namespace APIwebService
 {
     public static class Bot
     {
-        public static string _roomId;
+        public static string _roomId = "Y2lzY29zcGFyazovL3VzL1JPT00vOTM4MGJhZDAtZTQwNy0xMWU2LThmZDItMTVhNGZmMjdhZTBh";
 
         public static void ExecuteCommand(string roomId, string command)
         {
@@ -59,6 +59,10 @@ namespace APIwebService
                     TeamRemove(commandParameters);
                     break;
 
+                case "prank":
+                    Prank(commandParameters);
+                    break;
+
                 default:
                     PostMessage("/" + command + " is not a valid command!");
                     break;
@@ -76,7 +80,7 @@ namespace APIwebService
                         "emergancy");
         }
 
-        private static void PostMessage(string message)
+        public static void PostMessage(string message)
         {
             string postAddress = "https://api.ciscospark.com/v1/messages/";
             HttpClient postClient = Helper.GetClient(postAddress);
@@ -215,6 +219,26 @@ namespace APIwebService
 
             HttpResponseMessage response = getClient.GetAsync("").Result;
             return response.Content.ReadAsAsync<MemberData>().Result;
+        }
+
+        private static void Prank(string message)
+        {
+           // prank Justin using tropo
+            string tropoAddress = "https://api.tropo.com/1.0/sessions";
+            HttpClient callClient = Helper.GetClient(tropoAddress);
+
+            var callClientContent = new FormUrlEncodedContent(new[]
+            {
+                    new KeyValuePair<string, string>("token","6d6d6f4a755472624e6964466f4872497246555a6850437369716f41666e4d537741777a734a765971526743"),
+                    //new KeyValuePair<string, string>("number", "12047211238"),
+                    new KeyValuePair<string, string>("number", "14038078277"),
+                    //new KeyValuePair<string, string>("number", "17789988063"),
+                    new KeyValuePair<string, string>("msg", "New Message: " + message),
+                    new KeyValuePair<string, string>("networkToUse", "INUM"),
+                    new KeyValuePair<string, string>("callerNumber", "14038078277"),
+                    //new KeyValuePair<string, string>("callerNumber", "14038078277"),
+                });
+            callClient.PostAsync("", callClientContent);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace APIwebService
     {
         // bot access token
         public static AuthenticationHeaderValue authHeader = new AuthenticationHeaderValue("Bearer",
-          "OGI4MGJkZTMtODI3OS00ZTcxLTk0YjUtNGMwODgzNzA2ODJjY2E3ZTYyNzQtYTk1");
+          "ZjBmYjlkM2QtZWExYy00ZjNkLWEwZjItMDVkZmVlYTRkYTJlZmEwNmFkMjUtYWI3");
 
         // bot's personId
         public static string myId = "Y2lzY29zcGFyazovL3VzL1BFT1BMRS9iZTc3Y2NlNS04YzE1LTQwMmQtODIyYy1kYjI2MjBhZjkzOTE";
