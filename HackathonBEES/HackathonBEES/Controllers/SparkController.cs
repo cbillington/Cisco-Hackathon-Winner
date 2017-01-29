@@ -14,13 +14,35 @@ namespace HackathonBEES
             return Ok();
         }
 
+        private bool checkEmail(string email)
+        {
+            string mo = "mo_xue1989@yahoo.ca";
+            string matt = "mattjennings44@gmail.com";
+            string cal = "calliasnguyen@gmail.com";
+            string chris = "christopher.billington.school@gmail.com";
+            string craig = "craig.macritchie@gmail.com";
+
+            if (email == mo || email == matt || email == cal || email == chris || email == craig)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public void PostSpark([FromBody] Notification alert)
         {
-            // ignore bot's own messages
-            if (alert.data.personId == Config.botId)
+            if (!checkEmail(alert.data.personEmail))
             {
                 return;
             }
+            // ignore bot's own messages
+            //if (alert.data.personId == Config.botId)
+            //{
+            //    return;
+            //}
 
             // create http client
             string baseAddress = "https://api.ciscospark.com/v1/messages/";
@@ -40,7 +62,7 @@ namespace HackathonBEES
                     int index = Config.botName.Length;
                     string command = message.text.Substring(index);
                     command = command.Trim(' ');
-                    SparkBot.ExecuteCommand(message.roomId, command);
+                    SparkBot.ExecuteCommand(message.roomId, command, alert.data);
 
                     // add command to notify proper users
                 }

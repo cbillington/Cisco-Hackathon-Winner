@@ -20,7 +20,29 @@ namespace HackathonBEES
             member.name = txtName.Text;
             member.personEmail = txtEmail.Text;
             member.phone = txtphone.Text;
+            member.role = ddlRole.SelectedValue;
             SparkBot.AddTeamMember(member);
+        }
+
+        protected void btnEmergency_Click(object sender, EventArgs e)
+        {
+            var emergs = DBAccess.GetEmergencies();
+            gvData.DataSource = emergs;
+            gvData.DataBind();
+        }
+
+        protected void btnSensor_Click(object sender, EventArgs e)
+        {
+            var sensorData = DBAccess.GetSensorData();
+            gvData.DataSource = sensorData;
+            gvData.DataBind();
+        }
+
+        protected void btnMembers_Click(object sender, EventArgs e)
+        {
+            var memberData = DBAccess.GetMembers();
+            gvData.DataSource = memberData;
+            gvData.DataBind();
         }
     }
 }

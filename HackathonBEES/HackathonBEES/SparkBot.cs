@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -12,7 +14,7 @@ namespace HackathonBEES
     {
         public static string _roomId = Config.roomId;
         
-        public static void ExecuteCommand(string roomId, string command)
+        public static void ExecuteCommand(string roomId, string command, Data personData)
         {
             _roomId = roomId;
             string commandHeader, commandParameters;
@@ -40,15 +42,26 @@ namespace HackathonBEES
                     break;
 
                 case "emergency":
-                    NotifyAll(commandParameters);
+                    NotifyText(commandParameters);
+                    NotifyCall(commandParameters);
+                    PostMessage("Users notified!");
+
+                    var emergCall = new EmergencyCall();
+                    emergCall.transcription = commandParameters;
+                    emergCall.identifier = personData.personEmail;
+                    DBAccess.InsertEmergencyCall(emergCall);
                     break;
 
                 case "checkTemperature":
                     CheckTemperature();
                     break;
 
+                case "checkSensor":
+                    CheckSensor();
+                    break;
+
                 case "conference":
-                    StartConference();
+                    StartConference(commandParameters);
                     break;
 
                 case "invite":
@@ -73,9 +86,51 @@ namespace HackathonBEES
             }
         }
 
-        private static void StartConference()
+        private static void CheckSensor()
         {
-            foreach (var member in DBAccess.GetMembers())
+            HttpClient getClient = new HttpClient();
+            string getAddress = "https://api.relayr.io/devices/e84e2eb1-80bf-48e8-a5c1-c710c5310281/readings";
+            getClient.BaseAddress = new Uri(getAddress);
+            getClient.DefaultRequestHeaders.Accept.Add(
+               new MediaTypeWithQualityHeaderValue("application/json"));
+
+            getClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "RNClQ25HqmxEtFquKuGRAv4b8OAnFbzvh5MpFgNtyqpJOOcngIQEGwf0Xw0vgF4n");
+
+            HttpResponseMessage response = getClient.GetAsync("").Result;
+            var readingWrapper = response.Content.ReadAsAsync<ReadingWrapper>().Result;
+
+            decimal temperature = Convert.ToDecimal(readingWrapper.readings[0].value);
+
+            Sensor sensor = new Sensor();
+            string status = "Normal";
+
+            string message = "";
+            if (temperature > 30)
+            {
+                message = "Critical readings at: " + "\n" +
+                          "LSD: 66-27-75-05W4 \n" +
+                          "Temperature: " + temperature;
+
+                SparkBot.NotifyText(message);
+                status = "Alert";
+            }
+            else
+            {
+                message = "LSD: 66-27-75-05W4 \n" +
+                          "Temperature: " + temperature;
+            }
+            SparkBot.PostMessage(message);
+
+            sensor.LSD = "66-27-75-05W4";
+            sensor.temperature = temperature.ToString();
+            sensor.status = status;
+
+            DBAccess.InsertSensor(sensor);
+        }
+
+        private static void StartConference(string team)
+        {
+            foreach (var member in DBAccess.GetMembersByTeam(team))
             {
                 HttpClient conClient = Config.GetClient(Config.tropoBase);
                 var conClientContent = new FormUrlEncodedContent(new[]
@@ -92,11 +147,14 @@ namespace HackathonBEES
         {
             PostMessage("Commands: \n" +
                         "time \n" +
-                        "invite \n" +
-                        "remove \n" +
-                        "teamInvite \n" +
-                        "teamRemove \n" +
-                        "emergancy");
+                        "invite (User Email) \n" +
+                        "remove (User Email)\n" +
+                        "teamInvite (User Email)\n" +
+                        "teamRemove (User Email)\n" +
+                        "emergency (Message)\n" +
+                        "checkTemperature \n" +
+                        "checkSensor \n" +
+                        "conference (A or B)");
         }
 
         public static void PostMessage(string message)
@@ -273,7 +331,7 @@ namespace HackathonBEES
             var textClientContent = new FormUrlEncodedContent(new[]
             {
                     new KeyValuePair<string, string>("token","4c6176697958676e6f66746448455548685350554b455a456a4166756e644c75486b5649724e6e776a4b756a"),
-                    new KeyValuePair<string, string>("msg", "Emergancy Message: " + message),
+                    new KeyValuePair<string, string>("msg", "Emergency Message: " + message),
                     new KeyValuePair<string, string>("networkToUse", "SMS"),
                     new KeyValuePair<string, string>("numbersToDial", phoneList),
                 });
@@ -313,20 +371,25 @@ namespace HackathonBEES
             DBAccess.InsertMember(member);
         }
 
-        public static void NotifyAll(string message)
+        public static void NotifyText(string message)
         {
             var members = DBAccess.GetMembers();
             TextMembers(members, message);
-            //CallMembers(members, message);
         }
 
-        
+        public static void NotifyCall(string message)
+        {
+            var members = DBAccess.GetMembers();
+            CallMembers(members, message);
+        }
+
         public static async void CheckTemperature()
         {
             decimal latitude = 56.7264m;
-            decimal longitude = 111.3803m;
+            decimal longitude = -111.3803m;
 
-            string getAddress = "api.openweathermap.org/data/2.5/weather/?lat="+latitude+"&lon="+longitude+"&APPID=47422c59303274ad97cce155373ede7c";
+            string getAddress =
+                "http://api.openweathermap.org/data/2.5/weather/?lat=56.7264&lon=-111.3803&APPID=47422c59303274ad97cce155373ede7c";
 
             HttpClient getClient = new HttpClient();
             getClient.BaseAddress = new Uri(getAddress);
@@ -335,8 +398,9 @@ namespace HackathonBEES
 
             if (temp < 373)
             {
-                string mapsLink = "https://www.google.ca/maps?q=" + longitude + "," + latitude;
-                NotifyAll("Weather warning, temperature: " + temp + "\n Location: " + mapsLink);
+                string mapsLink = "https://www.google.ca/maps?q=" + latitude + "," + longitude;
+                NotifyText("Weather warning, temperature: " + temp + "\n Location: " + mapsLink);
+                PostMessage("Weather warning, temperature: " + temp + "\n Location: " + mapsLink);
             }
         }
 

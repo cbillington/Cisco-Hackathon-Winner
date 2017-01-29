@@ -47,8 +47,8 @@ namespace HackathonBEES
         public string sqlId { get; set; }
         public string transcription { get; set; }
         public string identifier { get; set; }
-        public decimal longitude { get; set; }
         public decimal latitude { get; set; }
+        public decimal longitude { get; set; }
     }
 
     public class TemperatureObject

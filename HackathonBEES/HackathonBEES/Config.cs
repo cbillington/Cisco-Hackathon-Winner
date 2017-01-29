@@ -29,10 +29,13 @@ namespace HackathonBEES
 
         public static string getMembersQuery = @"SELECT * FROM Members";
 
+        internal static string getMembersByTeamQuery = @"SELECT * FROM Members WHERE role = @role";
+
         public static string welcomeMessage = "Welcome to the BEEZTEAM! \n" +
-                                              "If you need any assistance, please talk to me in the general team space. \n" +
-                                              "type @BEEZBOT help for a list of my avaliable commands! \n" +
-                                              "Have a great day!";
+                                              "If you need any assistance, please talk to me in the general team space. \n" + "Have a great day!";
+
+        public static string getEmergQuery = @"SELECT * FROM EmergencyCalls";
+        public static string getSensorQuery = @"SELECT * FROM Sensors";
 
         public static HttpClient GetClient(string address)
         {
