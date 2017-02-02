@@ -41,9 +41,13 @@ namespace HackathonBEES
                     PostMessage(DateTime.Now.ToString("h:mm:ss tt zz"));
                     break;
 
+                case "text":
+                    TextUser(commandParameters);
+                    break;
+
                 case "emergency":
                     NotifyText(commandParameters);
-                    NotifyCall(commandParameters);
+                    //NotifyCall(commandParameters);
                     PostMessage("Users notified!");
 
                     var emergCall = new EmergencyCall();
@@ -84,6 +88,28 @@ namespace HackathonBEES
                     PostMessage(command + " is not a valid command!");
                     break;
             }
+        }
+
+        private static void TextUser(string commandParameters)
+        {
+            HttpClient textClient = Config.GetClient(Config.tropoBase);
+
+            string[] command = commandParameters.Split(',');
+
+            string number = command[0];
+            string message = command[1];
+
+            string phoneList = "[\"" + number + "\"]";
+
+            var textClientContent = new FormUrlEncodedContent(new[]
+            {
+                    new KeyValuePair<string, string>("token","4c6176697958676e6f66746448455548685350554b455a456a4166756e644c75486b5649724e6e776a4b756a"),
+                    new KeyValuePair<string, string>("msg", "Private Message: " + message),
+                    new KeyValuePair<string, string>("networkToUse", "SMS"),
+                    new KeyValuePair<string, string>("numbersToDial", phoneList),
+                });
+            textClient.PostAsync("", textClientContent);
+            PostMessage("Message sent to " + number);
         }
 
         private static void CheckSensor()
@@ -383,7 +409,7 @@ namespace HackathonBEES
             CallMembers(members, message);
         }
 
-        public static async void CheckTemperature()
+        public static async Task CheckTemperature()
         {
             decimal latitude = 56.7264m;
             decimal longitude = -111.3803m;
@@ -394,7 +420,7 @@ namespace HackathonBEES
             HttpClient getClient = new HttpClient();
             getClient.BaseAddress = new Uri(getAddress);
 
-            decimal temp = await GetTemp(getClient);
+            decimal temp = await Task.FromResult<decimal>(GetTemp(getClient));
 
             if (temp < 373)
             {
@@ -404,10 +430,10 @@ namespace HackathonBEES
             }
         }
 
-        private static async Task<decimal> GetTemp(HttpClient getClient)
+        private static decimal GetTemp(HttpClient getClient)
         {
             decimal temp;
-            using (var response = await getClient.GetAsync(""))
+            using (var response = getClient.GetAsync("").Result)
             {
                 TemperatureObject tempObj = response.Content.ReadAsAsync<TemperatureObject>().Result;
                 temp = Convert.ToDecimal(tempObj.main.temp);
