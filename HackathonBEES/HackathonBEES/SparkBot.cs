@@ -84,6 +84,10 @@ namespace HackathonBEES
                     TeamRemove(commandParameters);
                     break;
 
+                case "searchTweet":
+                    TwitterBot.postLastTweet(commandParameters);
+                    break;
+
                 default:
                     PostMessage(command + " is not a valid command!");
                     break;

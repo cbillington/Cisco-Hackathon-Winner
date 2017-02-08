@@ -9,9 +9,9 @@ namespace HackathonBEES
 {
     public class SparkController : ApiController
     {
-        public IHttpActionResult GetSpark()
+        public string GetSpark()
         {
-            return Ok();
+            return "success";
         }
 
         private bool checkEmail(string email)
@@ -31,6 +31,7 @@ namespace HackathonBEES
                 return false;
             }
         }
+
 
         public void PostSpark([FromBody] Notification alert)
         {
