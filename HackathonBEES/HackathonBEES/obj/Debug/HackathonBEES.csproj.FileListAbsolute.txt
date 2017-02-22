@@ -29,3 +29,17 @@ C:\Users\750118\Source\Repos\WebApi-Practice\HackathonBEES\HackathonBEES\obj\Deb
 C:\Users\750118\Source\Repos\WebApi-Practice\HackathonBEES\HackathonBEES\bin\Dapper.Contrib.dll
 C:\Users\750118\Source\Repos\WebApi-Practice\HackathonBEES\HackathonBEES\bin\Dapper.dll
 C:\Users\750118\Source\Repos\WebApi-Practice\HackathonBEES\HackathonBEES\bin\Dapper.xml
+C:\Users\750118\Source\Repos\WebApi-Practice\HackathonBEES\HackathonBEES\bin\Autofac.dll
+C:\Users\750118\Source\Repos\WebApi-Practice\HackathonBEES\HackathonBEES\bin\Microsoft.Threading.Tasks.dll
+C:\Users\750118\Source\Repos\WebApi-Practice\HackathonBEES\HackathonBEES\bin\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+C:\Users\750118\Source\Repos\WebApi-Practice\HackathonBEES\HackathonBEES\bin\Microsoft.Threading.Tasks.Extensions.dll
+C:\Users\750118\Source\Repos\WebApi-Practice\HackathonBEES\HackathonBEES\bin\System.Net.Http.Extensions.dll
+C:\Users\750118\Source\Repos\WebApi-Practice\HackathonBEES\HackathonBEES\bin\System.Net.Http.Primitives.dll
+C:\Users\750118\Source\Repos\WebApi-Practice\HackathonBEES\HackathonBEES\bin\Tweetinvi.dll
+C:\Users\750118\Source\Repos\WebApi-Practice\HackathonBEES\HackathonBEES\bin\Autofac.xml
+C:\Users\750118\Source\Repos\WebApi-Practice\HackathonBEES\HackathonBEES\bin\Microsoft.Threading.Tasks.xml
+C:\Users\750118\Source\Repos\WebApi-Practice\HackathonBEES\HackathonBEES\bin\Microsoft.Threading.Tasks.Extensions.xml
+C:\Users\750118\Source\Repos\WebApi-Practice\HackathonBEES\HackathonBEES\bin\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+C:\Users\750118\Source\Repos\WebApi-Practice\HackathonBEES\HackathonBEES\bin\System.Net.Http.Extensions.xml
+C:\Users\750118\Source\Repos\WebApi-Practice\HackathonBEES\HackathonBEES\bin\System.Net.Http.Primitives.xml
+C:\Users\750118\Source\Repos\WebApi-Practice\HackathonBEES\HackathonBEES\obj\Debug\HackathonBEES.csproj.App.config

@@ -1,0 +1,6 @@
+C:\Users\750118\Source\Repos\WebApi-Practice\HackathonAwesomo\SpeechTest\bin\Debug\SpeechTest.exe.config
+C:\Users\750118\Source\Repos\WebApi-Practice\HackathonAwesomo\SpeechTest\bin\Debug\SpeechTest.exe
+C:\Users\750118\Source\Repos\WebApi-Practice\HackathonAwesomo\SpeechTest\bin\Debug\SpeechTest.pdb
+C:\Users\750118\Source\Repos\WebApi-Practice\HackathonAwesomo\SpeechTest\obj\Debug\SpeechTest.csprojResolveAssemblyReference.cache
+C:\Users\750118\Source\Repos\WebApi-Practice\HackathonAwesomo\SpeechTest\obj\Debug\SpeechTest.exe
+C:\Users\750118\Source\Repos\WebApi-Practice\HackathonAwesomo\SpeechTest\obj\Debug\SpeechTest.pdb

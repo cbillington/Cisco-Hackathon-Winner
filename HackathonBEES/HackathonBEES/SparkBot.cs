@@ -88,6 +88,14 @@ namespace HackathonBEES
                     TwitterBot.postLastTweet(commandParameters);
                     break;
 
+                case "streamTweet":
+                    TwitterBot.UserStream();
+                    break;
+
+                case "searchStream":
+                    TwitterBot.StreamTwitter(commandParameters);
+                    break;
+
                 default:
                     PostMessage(command + " is not a valid command!");
                     break;

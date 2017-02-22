@@ -1,0 +1,34 @@
+﻿<%--
+Default skin template. The following skins are provided as examples only.
+
+1. Named control skin. The SkinId should be uniquely defined because
+   duplicate SkinId's per control type are not allowed in the same theme.
+
+<asp:GridView runat="server" SkinId="gridviewSkin" BackColor="White" >
+   <AlternatingRowStyle BackColor="Blue" />
+</asp:GridView>
+
+2. Default skin. The SkinId is not defined. Only one default 
+   control skin per control type is allowed in the same theme.
+
+<asp:Image runat="server" ImageUrl="~/images/image1.jpg" />
+--%>
+
+<asp:Chart runat="server" BackGradientStyle="Center" BorderlineColor="Black" BorderlineDashStyle="Solid" BorderlineWidth="3" CssClass="auto-style3" Height="313px" Palette="None" RightToLeft="No" Width="571px">
+    <ChartAreas>
+        <asp:ChartArea BackColor="White" BackImageAlignment="Center" BackSecondaryColor="AliceBlue" BorderDashStyle="Solid" BorderWidth="2" Name="Heartrate" ShadowColor="Black">
+            <AxisY IsLabelAutoFit="False" Title="Beats Per Min (BPM)" TitleFont="Trebuchet MS, 12pt, style=Bold">
+                <MajorGrid Enabled="False" />
+                <majortickmark linewidth="2" />
+                <LabelStyle Font="Trebuchet MS, 9.75pt, style=Bold" />
+            </AxisY>
+            <AxisX InterlacedColor="Black" LineWidth="2" Title="Time" TitleFont="Trebuchet MS, 9.75pt, style=Bold" IsLabelAutoFit="False">
+                <MajorGrid Enabled="False" LineWidth="2" />
+                <majortickmark linewidth="2" TickMarkStyle="InsideArea" />
+                <LabelStyle Format="HH:mm" Font="Trebuchet MS, 8.25pt, style=Bold" />
+            </AxisX>
+            <Area3DStyle LightStyle="None" />
+        </asp:ChartArea>
+    </ChartAreas>    
+    <BorderSkin BackColor="DimGray" BackGradientStyle="DiagonalLeft" BackSecondaryColor="0, 0, 64" PageColor="Transparent" SkinStyle="Emboss" />
+</asp:Chart>

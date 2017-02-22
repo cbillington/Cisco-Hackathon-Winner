@@ -9,6 +9,7 @@ namespace HackathonBEES
 {
     public static class Config
     {
+        //ngrok http 80 -host-header="localhost:80"
         public static string botName = "BEEZBOT";
 
         public static string botId = "Y2lzY29zcGFyazovL3VzL1BFT1BMRS8zMDE5M2ZjMC0zYzQxLTQxZmYtYjY1OS00YTJhNmUwMjU4MGY";
